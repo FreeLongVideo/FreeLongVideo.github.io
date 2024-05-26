@@ -1,1 +1,242 @@
-<p> FreeLong test</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="FreeLong: Training-Free Long Video Generation with SpectralBlend Temporal Attention">
+  <meta name="keywords" content="FreeLong, Video Diffusion Models, Text-to-Video, Stable Diffusion, AIGC, Video Generation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FreeLong: Training-Free Long Video Generation <br> with SpectralBlend Temporal Attention</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./assets/css/bulma.min.css">
+  <link rel="stylesheet" href="./assets/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./assets/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./assets/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./assets/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./assets/js/fontawesome.all.min.js"></script>
+  <script src="./assets/js/bulma-carousel.min.js"></script>
+  <script src="./assets/js/bulma-slider.min.js"></script>
+  <script src="./assets/js/index.js"></script>
+
+  <!-- custom css file  -->
+  <link rel="stylesheet" href="./assets/css/twentytwenty.css">
+</head>
+<body>
+
+<!-- title -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="font-size: 44px;">
+            <span style="color:#ff9b9b; font-weight: bold; font-style: italic">FreeLong</span> : Training-Free Long Video Generation with SpectralBlend Temporal Attention
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract. -->
+<section class="hero is-light">
+  <div class="container is-max-desktop ">
+    <div class="columns is-centered has-text-centered" style="margin-top: 10px; margin-bottom: 0px;">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Video diffusion models have made substantial progress in various video generation applications. However, training models for long video tasks require significant computational and data resources, posing a challenge to developing long video diffusion models.
+            This paper investigates a straightforward and training-free approach to adapt an existing short video diffusion model (e.g. pre-trained on 16-frame videos) for consistent long video generation (e.g. 128 frames). Preliminary observations indicate that while generating long videos, the short video model's temporal attention mechanism ensures temporal consistency but significantly degrades the fidelity and spatial-temporal details of the videos. Our further investigation reveals that the limitation is mainly due to the distortion of high-frequency components in generated long videos.
+            Motivated by this finding, we propose a straightforward yet effective solution: the local-global SpectralBlend Temporal Attention (SB-TA). This approach smooths the frequency distribution of long video features during the denoising process by blending the low-frequency components of global video features with the high-frequency components of local video features. This fusion enhances both the consistency and fidelity of long video generation. Based on the SB-TA, we developed a new training-free model named FreeLong, which sets a new performance benchmark compared to existing long video generation models. We evaluated FreeLong on multiple base video diffusion models and observed significant improvements. Additionally, our method supports coherent multi-prompt generation, ensuring both visual coherence and seamless transitions between scenes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Abstract. -->
+
+<!--/ Framework. -->
+<section class="section" style="margin-top:-50px; margin-bottom:-50px;">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 is-centered">FreeLong Framework</h2>
+        </div>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="./assets/images/framework.png" style="width:1000px; margin-top:10px;margin-bottom:10px;"/>
+            </div>
+          </div>
+        </div>
+        <p>
+          We propose FreeLong for consistent long and high-fidelity video generation. The core of our method is SpectralBlend Temporal Attention (SB-TA) to blend the low-frequency components of the global video feature with the high-frequency components of the local video feature. The local video feature is obtained by masking temporal attention that attends only to local frames for each frame. In contrast, the global temporal attention attends to all frames in the long video. We project local and global features into the frequency domain through 3D FFT and add two components together. After transforming back to the time domain with IFFT, the refined blended feature is used in the next block.
+        </p>
+    </div>
+  </div>
+</section>
+
+<!-- AnimateDiff Results -->
+<section class="hero is-light is-small" >
+  <div class="hero-body">
+    <div class="container is-max-desktop" style="margin-top:30px;">
+      <div class="section-title">
+        <h2 class="title is-3">Long videos generated before and after FreeLong.</h2>
+      </div>
+      <h2 class="subtitle has-text-centered"></h2>
+      <div id="results-AnimateDiff" class="carousel results-carousel">
+        <div class="item">
+          <div class="video">
+            <video muted autoplay="autoplay" loop="loop" width="100%">
+              <source src="./assets/videos/Figure1_1.mp4" type="video/mp4">
+            </video> 
+          </div>
+        </div>
+        <div class="item">
+          <div class="video">
+            <video muted autoplay="autoplay" loop="loop" width="100%">
+              <source src="./assets/videos/Figure1_2.mp4" type="video/mp4">
+            </video> 
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>  
+</section>
+
+<!-- ModelScope Results -->
+<section class="hero is-small" >
+  <div class="hero-body">
+    <div class="container is-max-desktop" style="margin-top:30px;">
+      <div class="section-title">
+        <h2 class="title is-3">Comparison with Previous Methods.</h2>
+      </div>
+      <h2 class="subtitle has-text-centered"></h2>
+      <div id="results-ModelScope" class="carousel results-carousel">
+        <div class="item">
+          <div class="video">
+            <video muted autoplay="autoplay" loop="loop" width="100%">
+              <source src="./assets/videos/Figure5_1.mp4" type="video/mp4">
+            </video> 
+          </div>
+        </div>
+        <div class="item">
+          <div class="video">
+            <video muted autoplay="autoplay" loop="loop" width="100%">
+              <source src="./assets/videos/Figure5_2.mp4" type="video/mp4">
+            </video> 
+          </div>
+        </div>
+        <div class="item">
+          <div class="video">
+            <video muted autoplay="autoplay" loop="loop" width="100%">
+              <source src="./assets/videos/Figure5_3.mp4" type="video/mp4">
+            </video> 
+          </div>
+        </div>
+      </div>
+    </div>   
+  </div>  
+</section>
+
+<!-- VideoCrafter Results -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop" style="margin-top:30px;">
+      <div class="section-title">
+        <h2 class="title is-3">Ablation Study.</h2>
+      </div>
+      <h2 class="subtitle has-text-centered"></h2>
+
+          <div class="video">
+            <video muted autoplay="autoplay" loop="loop" width="100%">
+              <source src="./assets/videos/Figure6.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small" >
+  <div class="hero-body">
+    <div class="container is-max-desktop" style="margin-top:30px;">
+      <div class="section-title">
+        <h2 class="title is-3">Multi-Prompt Videos.</h2>
+      </div>
+      <h2 class="subtitle has-text-centered"></h2>
+
+          <div class="video">
+            <video muted autoplay="autoplay" loop="loop" width="100%">
+              <source src="./assets/videos/Figure7.mp4" type="video/mp4">
+            </video> 
+          </div>
+        </div>
+      </div>
+    </div>   
+  </div>
+</section>
+
+<!-- custom js file  -->
+<!-- <script defer src="./assets/js/fontawesome.all.min.js"></script> -->
+<script src="./assets/js/bulma-carousel.min.js"></script>
+<script src="./assets/js/bulma-slider.min.js"></script>
+<script src="./assets/js/index.js"></script>
+<script src="./assets/js/jquery.event.move.js"></script>
+<script src="./assets/js/jquery.twentytwenty.js"></script>
+<script>
+$(function(){
+  $(".twentytwenty-container").twentytwenty();
+});
+$(function(){
+  $(".twentytwenty-container").twentytwenty({
+    default_offset_pct: 0.5, // How much of the before image is visible when the page loads
+    orientation: 'horizontal', // Orientation of the before and after images ('horizontal' or 'vertical')
+  });
+});
+</script>
+
+<script>
+  bulmaCarousel.attach('#results-AnimateDiff', {
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      loop: true,
+      infinite: true,
+      autoplay: false,
+      autoplaySpeed: 3000,
+  });
+  bulmaCarousel.attach('#results-ModelScope', {
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      loop: true,
+      infinite: true,
+      autoplay: false,
+      autoplaySpeed: 3000,
+  });
+  bulmaCarousel.attach('#results-ablation', {
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      loop: true,
+      infinite: true,
+      autoplay: false,
+      autoplaySpeed: 3000,
+  });
+  bulmaCarousel.attach('#results-mp', {
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      loop: true,
+      infinite: true,
+      autoplay: false,
+      autoplaySpeed: 3000,
+  });
+</script>
+
+</body>
+</html>
