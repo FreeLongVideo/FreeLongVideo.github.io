@@ -238,3 +238,18 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+
+
+.fancy-title-text {
+  font-size: 56px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff4e50, #f9d423, #1e90ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s infinite linear;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
